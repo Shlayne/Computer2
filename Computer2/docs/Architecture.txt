@@ -1,0 +1,34 @@
+Terminology:
+	MSB		Most significant byte.
+	msb		Most significant bit.
+	LSB		Least significant byte.
+	lsb		Least significant bit.
+
+Registers:
+	A		The accumulator.
+	F		The flags register.
+	BC		General purpose 2-byte register. Upper (B) and lower (C) registers can be directly accessed.
+	DE		General purpose 2-byte register. Upper (B) and lower (C) registers can be directly accessed.
+	HL		General purpose 2-byte register. Upper (B) and lower (C) registers can be directly accessed.
+
+Flags:
+	Stored in the F register.
+
+	msb ---SPOCZ lsb
+
+	Z	Zero		Set when the result of an operation was zero.
+	C	Carry		Set when 8th bit overflowed to "9th" bit.
+	O	Overflow	Set when 7th bit overflowed to 8th bit.
+	P	Parity		Set when the result of an operation had an odd number of bits set.
+	S	Sign		Set when the result of an operation could be interpreted as negative.
+	-	Unused		
+
+Instructions:
+	nop							No operation.
+	halt						Halt program execution.
+	ldi	dest(r8), src(i8)		Load immediate value into register.
+	mvr dest(r8), src(r8)		Move register to destination from source.
+	add src(r8)					Add register to accumulator.
+	adc src(r8)					Add register and carry flag to accumulator.
+	sub src(r8)					Subtract register from accumulator.
+	sbc src(r8)					Subtract register and carry flag from accumulator.

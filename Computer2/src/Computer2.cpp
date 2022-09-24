@@ -1,4 +1,5 @@
 #include "Computer2.h"
+#include "Computer/Assembler.h"
 
 Computer2::Computer2() : olc::PixelGameEngine()
 {
@@ -7,6 +8,19 @@ Computer2::Computer2() : olc::PixelGameEngine()
 
 bool Computer2::OnUserCreate()
 {
+	std::string testProgramSource;
+	{
+		std::ifstream testProgramFile("./test/test_program.asm");
+		if (testProgramFile.is_open())
+		{
+			std::stringstream testProgramStream;
+			testProgramStream << testProgramFile.rdbuf();
+			testProgramFile.close();
+			testProgramSource = testProgramStream.str();
+		}
+	}
+	Assembler::Assemble(testProgramSource);
+
 	return true;
 }
 
