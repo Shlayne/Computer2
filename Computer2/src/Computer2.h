@@ -4,10 +4,10 @@
 
 int Main(int argc, char** argv);
 
-class OLCTemplate : public olc::PixelGameEngine
+class Computer2 : public olc::PixelGameEngine
 {
 public:
-	OLCTemplate();
+	Computer2();
 protected:
 	virtual bool OnUserCreate() override;
 	virtual bool OnUserUpdate(float elapsedTime) override;

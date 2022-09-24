@@ -1,21 +1,21 @@
-#include "OLCTemplate.h"
+#include "Computer2.h"
 
-OLCTemplate::OLCTemplate() : olc::PixelGameEngine()
+Computer2::Computer2() : olc::PixelGameEngine()
 {
-	sAppName = "OLCTemplate";
+	sAppName = "Computer2";
 }
 
-bool OLCTemplate::OnUserCreate()
-{
-	return true;
-}
-
-bool OLCTemplate::OnUserUpdate(float elapsedTime)
+bool Computer2::OnUserCreate()
 {
 	return true;
 }
 
-bool OLCTemplate::OnUserDestroy()
+bool Computer2::OnUserUpdate(float elapsedTime)
+{
+	return true;
+}
+
+bool Computer2::OnUserDestroy()
 {
 	return true;
 }
@@ -24,7 +24,7 @@ int Main(int argc, char** argv)
 {
 	UNUSED(argc, argv);
 
-	OLCTemplate app;
+	Computer2 app;
 
 	if (app.Construct(320, 200, 4, 4) != olc::rcode::OK) // (1280, 800) / 4 -> 16:10 aspect ratio
 	{

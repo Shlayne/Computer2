@@ -1,6 +1,6 @@
 #if SYSTEM_WINDOWS
 
-#include "OLCTemplate.h"
+#include "Computer2.h"
 
 #if CONFIG_DIST
 

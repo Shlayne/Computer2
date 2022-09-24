@@ -1,4 +1,4 @@
-project "OLCTemplate"
+project "Computer2"
 	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++20"

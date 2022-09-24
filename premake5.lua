@@ -1,8 +1,8 @@
 include "Dependencies/premake/Custom/solutionitems.lua"
 
-workspace "OLCTemplate"
+workspace "Computer2"
 	architecture "x86_64"
-	startproject "OLCTemplate"
+	startproject "Computer2"
 
 	configurations { "Debug", "Release", "Dist" }
 
@@ -36,10 +36,10 @@ OutputDir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 include "Dependencies/premake/Custom/usestdpreproc.lua"
 include "Dependencies/Dependencies.lua"
 
-group "Dependencies/OLCTemplate"
-	include "OLCTemplate/Dependencies/olc-2.17"
-	include "OLCTemplate/Dependencies/stb-2.27"
+group "Dependencies/Computer2"
+	include "Computer2/Dependencies/olc-2.17"
+	include "Computer2/Dependencies/stb-2.27"
 group ""
 
 -- Add any projects here with 'include "__PROJECT_NAME__"'
-include "OLCTemplate"
+include "Computer2"
