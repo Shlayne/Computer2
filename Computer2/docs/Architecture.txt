@@ -1,15 +1,15 @@
-Terminology:
-	MSB		Most significant byte.
-	msb		Most significant bit.
-	LSB		Least significant byte.
-	lsb		Least significant bit.
-
 Registers:
-	A		The accumulator.
-	F		The flags register.
-	BC		General purpose 2-byte register. Upper (B) and lower (C) registers can be directly accessed.
-	DE		General purpose 2-byte register. Upper (B) and lower (C) registers can be directly accessed.
-	HL		General purpose 2-byte register. Upper (B) and lower (C) registers can be directly accessed.
+	A		1-byte accumulator.
+	F		1-byte flags register.
+	BC		2-byte, general purpose register. Upper (B) and lower (C) registers can be directly accessed.
+	DE		2-byte, general purpose register. Upper (B) and lower (C) registers can be directly accessed.
+	HL		2-byte, general purpose register. Upper (B) and lower (C) registers can be directly accessed.
+
+	PC		2-byte program counter.
+	SP		2-byte stack pointer.
+
+	D1		1-byte internal register used to store temporary data.
+	D2		1-byte internal register used to store temporary data.
 
 Flags:
 	Stored in the F register.
@@ -23,12 +23,37 @@ Flags:
 	S	Sign		Set when the result of an operation could be interpreted as negative.
 	-	Unused		
 
+Conditions:
+	Used for branching instructions, like jmp, call, ret, etc.
+	Any flag can be used here as well as their complement (prefixed with an 'n').
+	All conditions are: z, c, o, p, s, nz, nc, no, np, ns.
+	Any instruction that accepts conditions also accepts the absence of a condition,
+	i.e. its function will allways occur.
+
 Instructions:
-	nop							No operation.
-	halt						Halt program execution.
-	ldi	dest(r8), src(i8)		Load immediate value into register.
-	mvr dest(r8), src(r8)		Move register to destination from source.
-	add src(r8)					Add register to accumulator.
-	adc src(r8)					Add register and carry flag to accumulator.
-	sub src(r8)					Subtract register from accumulator.
-	sbc src(r8)					Subtract register and carry flag from accumulator.
+	r8		8-bit register
+	r16		16-bit register
+	i8		8-bit immediate value
+	i16		16-bit immediate value
+
+	Name	Operands						Description
+------------------------------------------------------------------------------------------------------------------
+	nop										No operation.
+	halt									Halt program execution.
+	ldi		dest(r8), src(i8)				Load an immediate value into dest.
+	mvr		dest(r8), src(r8)				Move register to dest from src.
+	sto		[addr(r16|i16)], src(r8)		Writes addr to the address bus and src to the data bus.
+	rcl		[addr(r16|i16)], dest(r8)		Writes addr to the address bus and the data bus to dest.
+	add		src(r8/i8)						Add src to A.
+	adc		src(r8/i8)						Add src and carry flag to A.
+	sub		src(r8/i8)						Subtract src from A.
+	sbc		src(r8/i8)						Subtract src and carry flag from A.
+	and		src(r8/i8)						Bitwise and's A with src.
+	xor		src(r8/i8)						Bitwise xor's A with src.
+	or		src(r8/i8)						Bitwise or's A with src.
+	cmp		src(r8/i8)						Subtract src from A, but preserve A and modify flags.
+	cpl										One's complement's A.
+	neg										Two's complement's A.
+	jmp		cond, addr(i16)					If cond is true, sets PC to addr.
+	call	cond, addr(i16)					If cond is true, pushes the PC+3 to the stack, then sets PC to addr.
+	ret		cond, addr(i16)					If cond is true, pops to PC from the stack.
