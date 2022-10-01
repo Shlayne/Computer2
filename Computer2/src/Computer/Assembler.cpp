@@ -211,11 +211,31 @@ AssemblerOutput Assembler::Assemble(std::string_view source)
 
 					size_t operandStart = i;
 
-					// TODO: this must change in order to account for string literals.
-
-					// Find the end of the current token.
-					while (c != ',' && ++i < line.size())
+					// Find the end of the current token, accounting for string literals.
+					bool inQuote = c == '"';
+					bool isEscaped = false;
+					while ((inQuote || c != ',') && ++i < line.size())
+					{
+						char oldC = c;
 						c = line[i];
+
+						if (inQuote)
+						{
+							if (c == '"' && !isEscaped)
+								inQuote = false;
+							else
+								isEscaped = c == '\\' && !isEscaped;
+						}
+						else if (c == '"')
+							inQuote = true;
+					}
+
+					if (inQuote || isEscaped)
+						return { AssemblerReturnCode_InvalidStringLiteral, line.number };
+
+					//// Find the end of the current token.
+					//while (c != ',' && ++i < line.size())
+					//	c = line[i];
 
 					size_t operandLength = i - operandStart;
 					if (operandLength == 0)

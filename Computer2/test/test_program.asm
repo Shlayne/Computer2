@@ -2,7 +2,8 @@
 	jmp Main
 .origin $8000
 
-.include "other_fi,le.inc", "another_file.asm"
+.define FILE, "file"
+.include "other_" FILE ".inc", "another_" FILE ".asm"
 
 public Main:
 	ldi b, 17 + 6
@@ -11,8 +12,9 @@ public Main:
 	halt
 	
 .define NULL, 0
+.define with, " \"this is a string in a .define to test .define string literal concatenation\" "
 protected Result:
-	.byte 15 + 49 - 7 * 4,0, "test string\" with, \\\" escaped characters \\", NULL
+	.byte 15 + 49 - 7 * 4,0, "test string" with ", \\\" escaped characters \\", NULL
 
 .define HAS_ADD3, 1
 .if HAS_ADD3

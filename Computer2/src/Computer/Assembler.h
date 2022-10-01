@@ -17,6 +17,7 @@ enum AssemblerReturnCode_ : AssemblerReturnCode
 	AssemblerReturnCode_DuplicateLabelDefinition,
 	AssemblerReturnCode_InvalidDirective,
 	AssemblerReturnCode_InvalidOperand,
+	AssemblerReturnCode_InvalidStringLiteral,
 };
 
 struct AssemblerProgramSection
