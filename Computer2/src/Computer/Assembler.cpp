@@ -1,6 +1,5 @@
 #include "Assembler.h"
 #include <cctype>
-#include <vector>
 
 constexpr bool IsLineEnding(char c) noexcept
 {
@@ -191,8 +190,6 @@ AssemblerOutput Assembler::Assemble(std::string_view source)
 			}
 			else // The line could be a directive, an instruction, or a syntax error.
 			{
-				// directives: origin, byte, word, include, macro, endmacro, if, elif, else, endif, define
-
 				auto& tokenizedLine = tokenizedLines.emplace_back();
 				tokenizedLine.number = line.number;
 
@@ -214,6 +211,8 @@ AssemblerOutput Assembler::Assemble(std::string_view source)
 
 					size_t operandStart = i;
 
+					// TODO: this must change in order to account for string literals.
+
 					// Find the end of the current token.
 					while (c != ',' && ++i < line.size())
 						c = line[i];
@@ -228,13 +227,70 @@ AssemblerOutput Assembler::Assemble(std::string_view source)
 		}
 	}
 
+	std::vector<AssemblerProgramSection> sections;
+
+	// Preprocess
+	for (const TokenizedLine& tokenizedLine : tokenizedLines)
+	{
+		std::string_view token0 = tokenizedLine.front();
+		if (token0.front() == '.')
+		{
+			// directives: include, byte, word, macro, endmacro, define, if, elif, else, endif, origin
+			std::string_view directive = token0.substr(1, token0.size() - 1);
+			if (directive == "include")
+			{
+
+			}
+			else if (directive == "byte")
+			{
+
+			}
+			else if (directive == "word")
+			{
+
+			}
+			else if (directive == "macro")
+			{
+
+			}
+			else if (directive == "endmacro")
+			{
+
+			}
+			else if (directive == "define")
+			{
+
+			}
+			else if (directive == "if")
+			{
+
+			}
+			else if (directive == "elif")
+			{
+
+			}
+			else if (directive == "else")
+			{
+
+			}
+			else if (directive == "endif")
+			{
+
+			}
+			else if (directive == "origin")
+			{
+
+			}
+		}
+	}
+
 	// Anything that expects an integer requires a constexpr evaluation, i.e. using 23 in
 	// place of "17 + 6". This includes multiple numbers represented in any supported base,
 	// which are binary, decimal, and hexadecimal.
 
 
 
-	return AssemblerReturnCode_Success;
+	return { AssemblerReturnCode_Success, 0, std::move(sections) };
 }
 
 bool Assembler::IsLabel(std::string_view text)

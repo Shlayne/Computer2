@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string_view>
+#include <vector>
 
 using AssemblerReturnCode = uint16_t;
 enum AssemblerReturnCode_ : AssemblerReturnCode
@@ -18,18 +19,25 @@ enum AssemblerReturnCode_ : AssemblerReturnCode
 	AssemblerReturnCode_InvalidOperand,
 };
 
+struct AssemblerProgramSection
+{
+	uint16_t origin = 0;
+	std::vector<uint8_t> assembly;
+};
+
 struct AssemblerOutput
 {
-	AssemblerReturnCode code = AssemblerReturnCode_Success;
-	size_t line = 0;
+	AssemblerReturnCode returnCode = AssemblerReturnCode_Success;
+	size_t lineNumber = 0; // Only relevant if returnCode is not AssemblerReturnCode_Success.
+	std::vector<AssemblerProgramSection> sections; // Only relevant if returnCode is AssemblerReturnCode_Success.
 
 	constexpr AssemblerOutput() noexcept = default;
-	constexpr AssemblerOutput(AssemblerReturnCode code, size_t line = 0) noexcept
-		: code(code), line(line) {}
+	constexpr AssemblerOutput(AssemblerReturnCode returnCode, size_t lineNumber = 0, std::vector<AssemblerProgramSection>&& sections = {}) noexcept
+		: returnCode(returnCode), lineNumber(lineNumber), sections(std::move(sections)) {}
 
 	constexpr operator bool() const noexcept
 	{
-		return code == AssemblerReturnCode_Success;
+		return returnCode == AssemblerReturnCode_Success;
 	}
 };
 
