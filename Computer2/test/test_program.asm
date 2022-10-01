@@ -1,4 +1,8 @@
+.origin $0000
+	jmp Main
 .origin $8000
+
+.include "other_file.inc", "another_file.asm"
 
 public Main:
 	ldi b, 17 + 6
@@ -6,7 +10,6 @@ public Main:
 	sto [Result], a
 	halt
 
-.origin $8100
 protected Result:
 	.byte 0
 
@@ -23,5 +26,3 @@ protected Result:
 	.macro add3, $a, $b, $c
 	.endmacro
 .endif
-
-.include "other_file.inc", "another_file.asm"

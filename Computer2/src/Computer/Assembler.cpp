@@ -191,7 +191,7 @@ AssemblerOutput Assembler::Assemble(std::string_view source)
 			}
 			else // The line could be a directive, an instruction, or a syntax error.
 			{
-				// directives: origin, byte, word, include, macro, endmacro, if, elif, else, endif, define, export
+				// directives: origin, byte, word, include, macro, endmacro, if, elif, else, endif, define
 
 				auto& tokenizedLine = tokenizedLines.emplace_back();
 				tokenizedLine.number = line.number;
