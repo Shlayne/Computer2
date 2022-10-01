@@ -14,6 +14,8 @@ enum AssemblerReturnCode_ : AssemblerReturnCode
 	AssemblerReturnCode_EmptyLabelDefinition = 0x2000,
 	AssemblerReturnCode_InvalidLabelDefinition,
 	AssemblerReturnCode_DuplicateLabelDefinition,
+	AssemblerReturnCode_InvalidDirective,
+	AssemblerReturnCode_InvalidOperand,
 };
 
 struct AssemblerOutput
@@ -35,8 +37,18 @@ class Assembler
 {
 public:
 	// Assumes line endings are one of LF, CRLF, or CR, and are consistent.
-	// Otherwise, you could get errors reported on incorrect lines.
+	// Otherwise, you could get errors and warnings reported on incorrect lines.
+	// NOTE: the data source points to must stay alive for the duration of this function.
 	static AssemblerOutput Assemble(std::string_view source);
+private:
+	struct Line;
+	struct TokenizedLine;
+private:
+	static bool IsLabel(std::string_view text);
+	static bool IsBinary(std::string_view text, std::string_view& tidiedNumber);
+	static bool IsDecimal(std::string_view text, std::string_view& tidiedNumber);
+	static bool IsHexadecimal(std::string_view text, std::string_view& tidiedNumber);
+	static uint8_t GetBase(std::string_view text, std::string_view& tidiedNumber);
 private:
 	Assembler() = delete;
 	Assembler(const Assembler&) = delete;
